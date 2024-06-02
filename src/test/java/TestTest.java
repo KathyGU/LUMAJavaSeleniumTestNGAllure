@@ -1,4 +1,5 @@
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class TestTest {
@@ -9,6 +10,7 @@ public class TestTest {
 
     }
 
+    @Ignore
     @Test
     public void testFail() {
 

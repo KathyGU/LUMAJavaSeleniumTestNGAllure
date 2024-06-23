@@ -45,7 +45,7 @@ public abstract class BaseTest {
         }
     }
 
-    public WebDriver getDriver () {
+     public WebDriver getDriver () {
 
         return this.driver;
     }

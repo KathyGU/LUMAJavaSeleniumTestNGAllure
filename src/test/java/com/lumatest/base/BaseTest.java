@@ -1,13 +1,12 @@
 package com.lumatest.base;
 
 import com.lumatest.utils.DriverUtils;
+import com.lumatest.utils.ReportUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
 import org.testng.Reporter;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 public abstract class BaseTest {
 
@@ -21,8 +20,9 @@ public abstract class BaseTest {
 
     @Parameters("browser")
     @BeforeMethod
-    protected void setup(String browser) {
+    protected void setup(@Optional("chrome") String browser, ITestResult result) {
         Reporter.log("----------------------------------------------------------------", true);
+        Reporter.log("RUN: " + result.getTestName() + " - " + result.getMethod().getMethodName(), true);
         this.driver = DriverUtils.createDriver(browser, this.driver);
 
         if(getDriver() == null) {
@@ -34,10 +34,12 @@ public abstract class BaseTest {
 
     @Parameters("browser")
     @AfterMethod(alwaysRun = true)
-    protected void tearDown(String browser) {
+    protected void tearDown(@Optional("chrome") String browser, ITestResult result) {
+        Reporter.log(result.getTestName() + " - " + result.getMethod().getMethodName() + ": " + ReportUtils.getTestStatus(result), true);
         if(this.driver != null) {
             getDriver().quit();
             Reporter.log("INFO: " + browser.toUpperCase() +  " driver closed.", true);
+
 
             this.driver = null;
         } else {
